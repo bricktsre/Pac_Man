@@ -11,6 +11,7 @@ public class pacman extends Character {
 		super(a,initialdx,initialdy, w);
 		diagdir = DiagDirection.NONE;
 		score=0;
+		lives=3;
 	}
 	
 	//Moves the pacman diagonally
@@ -57,6 +58,14 @@ public class pacman extends Character {
 	
 	public void loseLife() {
 		lives--;
+	}
+	
+	public int getScore() {
+		return score;
+	}
+	
+	public int getLife() {
+		return lives;
 	}
 	
 	public void draw(Graphics g) {
