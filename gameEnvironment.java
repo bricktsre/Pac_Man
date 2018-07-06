@@ -1,3 +1,4 @@
+import java.awt.Color;
 import java.awt.Graphics;
 
 import java.awt.Rectangle;
@@ -6,7 +7,7 @@ import java.util.ArrayList;
 public class gameEnvironment {
 	private GameSquare[][] gsquare;				//2D array of all the squares making up the map
 	private pacman pman;						//Pacman character
-	//private Ghost [] ghosts;			//Array of ghosts
+	private Ghost [] ghosts = new Ghost[1];		//Array of ghosts
 	private int height;
 	private int width;
 	
@@ -18,7 +19,8 @@ public class gameEnvironment {
 		initializeBoard(m);
 		a = m.getStartCoordinates();
 		pman = new pacman(CardinalDirection.LEFT,a[0],a[1],width);
-		//ghosts = new Ghost[];
+		for(int i =0;i<ghosts.length;i++)
+			ghosts[i]= new Ghost(CardinalDirection.NONE,40,40,width,Color.GREEN);
 	}
 	
 	//Initializes the playing board with a border of walls and wall blocks randomly inside with a bias
