@@ -1,4 +1,5 @@
 import java.awt.Color;
+import java.awt.Graphics;
 import java.util.ArrayList;
 
 public class Ghost extends Character{
@@ -23,5 +24,10 @@ public class Ghost extends Character{
 			d=b.get(1);
 		else
 			d=b.get(2);
+	}
+
+	public void draw(Graphics g) {
+		g.setColor(c);
+		g.fillOval(imgdx, imgdy, imgwidth, imgwidth);
 	}
 }
