@@ -91,4 +91,6 @@ public class Character {
 	public void changeDiagDir(DiagDirection none) {}
 	public int atCenterLineD(GameSquare g) {return 0;}
 	public void setDiag(int c) {}
+	public void increaseScore(int a) {}
+	public void loseLife() {}
 }
