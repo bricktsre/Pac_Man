@@ -17,7 +17,7 @@ public class gameEnvironment {
 		a = m.getStartCoordinates();
 		pman = new pacman(CardinalDirection.LEFT,a[0],a[1],width);
 		for(int i =0;i<ghosts.length;i++)
-			ghosts[i]= new Ghost(CardinalDirection.NONE,40,40,width,Color.GREEN);
+			ghosts[i]= new Ghost(CardinalDirection.NONE,36,36,width,Color.GREEN);
 	}
 	
 	//Initializes the playing board with a border of walls and wall blocks randomly inside with a bias
