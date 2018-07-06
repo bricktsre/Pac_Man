@@ -1,9 +1,6 @@
 import java.awt.Color;
 import java.awt.Graphics;
 
-import java.awt.Rectangle;
-import java.util.ArrayList;
-
 public class gameEnvironment {
 	private GameSquare[][] gsquare;				//2D array of all the squares making up the map
 	private pacman pman;						//Pacman character
