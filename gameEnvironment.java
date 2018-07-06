@@ -1,10 +1,12 @@
 import java.awt.Graphics;
+
 import java.awt.Rectangle;
 import java.util.ArrayList;
 
 public class gameEnvironment {
 	private GameSquare[][] gsquare;				//2D array of all the squares making up the map
-	private Character [] characters;			//Array of characters including pacman and the ghosts. Pac_Man is always in the first location
+	private pacman pman;						//Pacman character
+	//private Ghost [] ghosts;			//Array of ghosts
 	private int height;
 	private int width;
 	
@@ -14,9 +16,9 @@ public class gameEnvironment {
 		width = a[0];
 		gsquare = new GameSquare[width][height];
 		initializeBoard(m);
-		characters = new Character[1];
 		a = m.getStartCoordinates();
-		characters[0] = new pacman(CardinalDirection.LEFT,a[0],a[1],width);
+		pman = new pacman(CardinalDirection.LEFT,a[0],a[1],width);
+		//ghosts = new Ghost[];
 	}
 	
 	//Initializes the playing board with a border of walls and wall blocks randomly inside with a bias
@@ -36,18 +38,23 @@ public class gameEnvironment {
 	//Update the game
 	public void update() {
 		move();
+		pointsDeaths();
 	}
 	
 	/* Focuses entirely on moving the characters 
 	 * Pacman(characters[0]) is moved seperately becuase it has unique move mechanics
 	 */
 	private void move() {
-		if(!checkWallCollision(characters[0]))
-			characters[0].changeDirection(CardinalDirection.NONE);
-		if(characters[0].getDiagdir()==DiagDirection.NONE)
-			characters[0].move();
+		if(!checkWallCollision(pman))
+			pman.changeDirection(CardinalDirection.NONE);
+		if(pman.getDiagdir()==DiagDirection.NONE)
+			pman.move();
 		else
-			diagonalMove(characters[0]);
+			diagonalMove(pman);
+		/*for(Ghost a; ghosts)
+			//move ghosts
+			 * */
+			 
 	}
 	
 	/*Test to see if a character moving would cause it to go into a wall
@@ -67,22 +74,22 @@ public class gameEnvironment {
 	 * If it cannot then the pac man character goes back to its original direction
 	 */
 	public void changeD(CardinalDirection d) {
-		if(d == characters[0].getDirection())
+		if(d == pman.getDirection())
 			return;
-		CardinalDirection olddirection = characters[0].getDirection();
-		characters[0].changeDirection(d);
-		if(checkWallCollision(characters[0]))
-			if(characters[0].atCenterLineD(gsquareIn(characters[0]))==0)
+		CardinalDirection olddirection = pman.getDirection();
+		pman.changeDirection(d);
+		if(checkWallCollision(pman))
+			if(pman.atCenterLineD(gsquareIn(pman))==0)
 				return;
 			else	
-				characters[0].setDiag(characters[0].atCenterLineD(gsquareIn(characters[0])));
+				pman.setDiag(pman.atCenterLineD(gsquareIn(pman)));
 		else
-			characters[0].changeDirection(olddirection);
+			pman.changeDirection(olddirection);
 	}
 	
 	//Moves the character in a diagonal fashion
 	//Checks to see if the diagonal move is complete and if it is changes the diagonal direction something to NONE
-	private void diagonalMove(Character car) {
+	private void diagonalMove(pacman car) {
 		car.moveDiag();
 		if(car.atCenterLineD(gsquareIn(car))==0)
 			car.changeDiagDir(DiagDirection.NONE);
@@ -93,14 +100,30 @@ public class gameEnvironment {
 		return gsquare[(a.getSquareIn())/height][(a.getSquareIn())%width];
 	}
 	
+	private void pointsDeaths() {
+		/*for(Ghost a: ghosts) {
+			if(gsquareIn(a)==gsquareIn(pman)){
+				pman.loseLife();
+				//reset positions
+			}
+		}*/
+		if(gsquareIn(pman).hasPoint()) {
+			pman.increaseScore(10);
+			gsquareIn(pman).removePoint();
+		}
+				
+	}
+	
 	//Calls the draw methods for each GameSquare and Character respectively
 	public void draw(Graphics g) {
 		for(int i =0;i<gsquare.length;i++) {
 			for(int j =0;j<gsquare[0].length;j++)
 				gsquare[i][j].draw(g, i, j);
 		}
-		for(Character a: characters)
+		pman.draw(g);;
+		/*for(Ghost a: ghosts)
 			a.draw(g);
+			*/
 	}
 
 }
