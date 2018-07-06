@@ -50,9 +50,13 @@ public class gameEnvironment {
 			pman.move();
 		else
 			diagonalMove(pman);
-		/*for(Ghost a; ghosts)
-			//move ghosts
-			 * */
+		for(Ghost a: ghosts){
+			a.changeDirection();
+			while(!checkWallCollision(a))
+				a.changeDirection();
+			a.move();
+		}		
+			 
 			 
 	}
 	
@@ -99,6 +103,9 @@ public class gameEnvironment {
 		return gsquare[(a.getSquareIn())/height][(a.getSquareIn())%width];
 	}
 	
+	/*
+	 * 
+	 */
 	private void pointsDeaths() {
 		/*for(Ghost a: ghosts) {
 			if(gsquareIn(a)==gsquareIn(pman)){
