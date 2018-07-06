@@ -13,7 +13,7 @@ public class Character {
 	protected int squarein;				//What square the character is in
 	protected int cdx;					//Center block top left hand corner x-coordinate
 	protected int cdy;					//Center block top left hand corner y-coordinate
-	protected int width;				//Width of the character
+	protected int width;				//How many GameSquares wide the map is
 	
 	
 	public Character(CardinalDirection a, int initialdx, int initialdy, int w) {
