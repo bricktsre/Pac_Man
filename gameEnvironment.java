@@ -127,9 +127,9 @@ public class gameEnvironment {
 				gsquare[i][j].draw(g, i, j);
 		}
 		pman.draw(g);;
-		/*for(Ghost a: ghosts)
+		for(Ghost a: ghosts)
 			a.draw(g);
-			*/
+			
 	}
 
 }
