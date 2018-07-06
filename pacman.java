@@ -4,6 +4,8 @@ import java.awt.Graphics;
 public class pacman extends Character {
 	private final Color c = Color.YELLOW;
 	protected DiagDirection diagdir;		//Direction of character diagonally if applicable
+	private int score;				//Score of the pac man
+	private int lives;				//Lives of the pac man
 	
 	public pacman(CardinalDirection a, int initialdx, int initialdy, int w) {
 		super(a,initialdx,initialdy, w);
@@ -47,6 +49,14 @@ public class pacman extends Character {
 	//
 	public void setDiag(int a) {
 		diagdir=diagdir.setDiag(a, d);
+	}
+	
+	public void increaseScore(int a) {
+		score+=a;
+	}
+	
+	public void loseLife() {
+		lives--;
 	}
 	
 	public void draw(Graphics g) {
