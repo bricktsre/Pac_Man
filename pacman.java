@@ -47,27 +47,32 @@ public class pacman extends Character {
 			return Integer.compare(cdx, g.getCdx());
 	}
 	
-	//
+	//Set the initial diagonal direction of pacman when a change of direction is first made
 	public void setDiag(int a) {
 		diagdir=diagdir.setDiag(a, d);
 	}
 	
+	//Increases the score of the pacman by parameter int a
 	public void increaseScore(int a) {
 		score+=a;
 	}
 	
+	//Decreases the lives variable by one
 	public void loseLife() {
 		lives--;
 	}
 	
+	//Returns the score variable
 	public int getScore() {
 		return score;
 	}
 	
+	//Return the lives variable
 	public int getLife() {
 		return lives;
 	}
 	
+	//Draws the pacman character
 	public void draw(Graphics g) {
 		g.setColor(c);
 		g.fillOval(imgdx, imgdy, imgwidth, imgwidth);
