@@ -122,6 +122,7 @@ public class gameEnvironment {
 				for(Character c: car)
 					c.resetPosition();
 				pman.changeDirection(CardinalDirection.LEFT);
+				break;
 			}
 		}
 		if(gsquareIn(pman).hasPoint()) {
