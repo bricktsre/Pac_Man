@@ -65,6 +65,8 @@ public class gamePanel extends JPanel {
 			score.setText("Score: " + environ.getScore());
 			lives.setText("Lives: " + environ.getLives());
 			repaint();
+			if(environ.getLives()==0)
+				timer.stop();
 		}
 	}
 	
