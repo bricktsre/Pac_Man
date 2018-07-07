@@ -15,7 +15,7 @@ public class MainJFrame extends JFrame{
 		MapReader m = new MapReader("map.txt");
 		int[] a = m.getHeightWidth();
         gp = new gamePanel( this,m);
-        gp.setPreferredSize(new Dimension(a[1]*36, a[0]*36));
+        gp.setPreferredSize(new Dimension(a[1]*36, a[0]*36+50));
         
         getContentPane().add( gp );
         pack();
