@@ -22,7 +22,7 @@ public class Ghost extends Character{
 			d=b.get(0);
 		else if(a==8)
 			d=b.get(1);
-		else
+		else if(a==9)
 			d=b.get(2);
 	}
 
