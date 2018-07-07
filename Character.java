@@ -4,7 +4,7 @@ import java.awt.event.KeyEvent;
 
 public class Character {
 	protected final int speed=4;		//Set speed of the character
-	protected CardinalDirection d;				//Direction the character is moving in
+	protected CardinalDirection d;		//Direction the character is moving in
 	protected int imgdx;				//Upper left hand corner x-coordinate of the image of the character
 	protected int imgdy;				//Upper left hand corner y-coordinate of the image of the character
 	protected final int imgwidth = 36;	//Width of the image
@@ -14,10 +14,14 @@ public class Character {
 	protected int cdx;					//Center block top left hand corner x-coordinate
 	protected int cdy;					//Center block top left hand corner y-coordinate
 	protected int width;				//How many GameSquares wide the map is
+	protected int initialdx;			//Initial Upper left hand corner x-coordinate of the image of the character
+	protected int initialdy;			//Initial Upper left hand corner y-coordinate of the image of the character
 	
 	
-	public Character(CardinalDirection a, int initialdx, int initialdy, int w) {
+	public Character(CardinalDirection a, int startdx, int startdy, int w) {
 		d = a;
+		initialdx=startdx;
+		initialdy=startdy;
 		imgdx = initialdx;
 		imgdy = initialdy;
 		coldx = imgdx;
@@ -82,6 +86,17 @@ public class Character {
 			return Integer.compare(cdy, g.getCdy());
 		else 
 			return Integer.compare(cdx, g.getCdx());
+	}
+	
+	//Resets the character back to it's initial position
+	public void resetPosition() {
+		imgdx = initialdx;
+		imgdy = initialdy;
+		coldx = imgdx;
+		coldy = imgdy;
+		cdx = coldx+16;
+		cdy = coldy+16;
+		squarein = ((cdy/36)*width)+(cdx/36);	
 	}
 	
 	//Empty method for sub classes to implement
