@@ -131,6 +131,16 @@ public class gameEnvironment {
 				
 	}
 	
+	//Returns the score of the pacman
+	public int getScore() {
+		return pman.getScore();
+	}
+	
+	//Returns the lives of the pacman
+	public int getLives() {
+		return pman.getLife();
+	}
+	
 	//Calls the draw methods for each GameSquare and Character respectively
 	public void draw(Graphics g) {
 		for(int i =0;i<gsquare.length;i++) {
