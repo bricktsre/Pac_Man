@@ -46,7 +46,7 @@ public class gameEnvironment {
 	}
 	
 	/* Focuses entirely on moving the characters 
-	 * Pacman(characters[0]) is moved seperately becuase it has unique move mechanics
+	 * Pacman is moved seperately because it has unique move mechanics
 	 */
 	private void move() {
 		if(!checkWallCollision(pman))
@@ -55,14 +55,17 @@ public class gameEnvironment {
 			pman.move();
 		else
 			diagonalMove(pman);
+		
 		for(Ghost a: ghosts){
-			a.changeDirection();
-			while(!checkWallCollision(a))
+			if(a.atCenterLineC(gsquareIn(a), a.getDirection())==0 ) {	//Ghosts can only change direction if they are in the center of their square
 				a.changeDirection();
-			a.move();
-		}		
-			 
-			 
+				while(!checkWallCollision(a))
+					a.changeDirection();
+				a.move();
+			}
+			else 
+				a.move();
+		}				 
 	}
 	
 	/*Test to see if a character moving would cause it to go into a wall
@@ -108,8 +111,9 @@ public class gameEnvironment {
 		return gsquare[(a.getSquareIn())/height][(a.getSquareIn())%width];
 	}
 	
-	/*
-	 * 
+	/*First goes through and sees if the pacman character and any of the ghost characters are in the same GameSquare
+	 * if they are, the pacman loses a life and all characters reset their positions
+	 * Secondly if the pacman is in a GameSquare containg a point than he eats it and increases his score
 	 */
 	private void pointsDeaths() {
 		for(Ghost a: ghosts) {
@@ -117,6 +121,7 @@ public class gameEnvironment {
 				pman.loseLife();
 				for(Character c: car)
 					c.resetPosition();
+				pman.changeDirection(CardinalDirection.LEFT);
 			}
 		}
 		if(gsquareIn(pman).hasPoint()) {
