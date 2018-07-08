@@ -11,9 +11,9 @@ public class gameEnvironment {
 	
 	public gameEnvironment(MapReader m) {
 		int[] a = m.getHeightWidth();
-		height=a[1];
-		width = a[0];
-		gsquare = new GameSquare[width][height];
+		height=a[0];
+		width = a[1];
+		gsquare = new GameSquare[height][width];
 		initializeBoard(m);
 		a = m.getStartCoordinates();
 		pman = new pacman(CardinalDirection.LEFT,a[0],a[1],width);
@@ -73,8 +73,8 @@ public class gameEnvironment {
 	 */
 	private boolean checkWallCollision(Character c) {
 		int a = c.getSquareIn();
-		int row = a/height+c.getDirection().dy;
-		int col = a%width+c.getDirection().dx;
+		int row = a/width+c.getDirection().dy;
+		int col = a%height+c.getDirection().dx;
 		if(gsquare[row][col].isWall()&&(c.atCenterLineC(gsquareIn(c), c.getDirection())==0))
 			return false;
 		return true;			
@@ -122,6 +122,7 @@ public class gameEnvironment {
 				for(Character c: car)
 					c.resetPosition();
 				pman.changeDirection(CardinalDirection.LEFT);
+				break;
 			}
 		}
 		if(gsquareIn(pman).hasPoint()) {
@@ -129,6 +130,16 @@ public class gameEnvironment {
 			gsquareIn(pman).removePoint();
 		}
 				
+	}
+	
+	//Returns the score of the pacman
+	public int getScore() {
+		return pman.getScore();
+	}
+	
+	//Returns the lives of the pacman
+	public int getLives() {
+		return pman.getLife();
 	}
 	
 	//Calls the draw methods for each GameSquare and Character respectively

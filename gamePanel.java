@@ -17,6 +17,8 @@ public class gamePanel extends JPanel {
 	private MainJFrame parent;					//reference to JFrame this panel is in
 	private javax.swing.Timer timer;			//Timer to run the game
 	private gameEnvironment environ;			//class containing the objects to be drawn and moved
+	private JLabel score;						//JLabel displaying the score
+	private JLabel lives;						//JLabel displaying lives left of the pacman
 	
 	public gamePanel(MainJFrame parentFrame, MapReader m) {
 		parent = parentFrame;			
@@ -26,9 +28,22 @@ public class gamePanel extends JPanel {
 		
 		addKeyListener(new keylistener());					//keylistener for changing direction
 		
+		int[] a = m.getHeightWidth();
+		score = new JLabel("Score: " + environ.getScore());
+		score.setBounds(100, a[0]*36+5, 200, 45);
+		score.setFont(new Font("Dialog", Font.PLAIN,24));
+		score.setForeground(Color.WHITE);
+		lives = new JLabel("Lives: " + environ.getLives());
+		lives.setBounds(a[1]*36-200, a[0]*36+5, 100, 45);
+		lives.setFont(new Font("Dialog", Font.PLAIN,24));
+		lives.setForeground(Color.WHITE);
+		
 		timer = new javax.swing.Timer(40, new TimerListener(this));
 		timer.start();
 		setFocusable(true);
+		
+		this.add(score);
+		this.add(lives);
 	}
 	
 	@Override
@@ -47,9 +62,24 @@ public class gamePanel extends JPanel {
 		@Override
 		public void actionPerformed(ActionEvent e) {		//Main method running the whole game
 			environ.update();
+			score.setText("Score: " + environ.getScore());
+			lives.setText("Lives: " + environ.getLives());
 			repaint();
+			if(environ.getLives()==0) {
+				timer.stop();
+				buildDialog();
+			}
 		}
 	}
+	
+	public void buildDialog()
+	  {
+	    JOptionPane optionPane = new JOptionPane(new JLabel("GAME OVER",JLabel.CENTER));
+	    JDialog dialog = optionPane.createDialog("");
+	    dialog.setModal(true);
+	    dialog.setVisible(true);
+	    System.exit(0);
+	  }
 	
 	//Changes the direction of the pacman character in accordance with the arrow keys pressed
 	private class keylistener extends KeyAdapter {
