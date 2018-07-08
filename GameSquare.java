@@ -14,8 +14,8 @@ public class GameSquare {
 		iswall=a;
 		hasdot=b;
 		hasbigdot=c;
-		cdx=x*36+16;
-		cdy=y*36+16;
+		cdx=x*36+12;
+		cdy=y*36+12;
 		
 	}
 	

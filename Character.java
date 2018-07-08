@@ -3,11 +3,11 @@ import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 
 public class Character {
-	protected final int speed=4;		//Set speed of the character
+	protected final int speed=3;		//Set speed of the character
 	protected CardinalDirection d;		//Direction the character is moving in
 	protected int imgdx;				//Upper left hand corner x-coordinate of the image of the character
 	protected int imgdy;				//Upper left hand corner y-coordinate of the image of the character
-	protected final int imgwidth = 36;	//Width of the image
+	protected final int imgwidth = 27;	//Width of the image
 	protected int coldx;				//Upper left hand corner x-coordinate of the collision box of the character
 	protected int coldy;				//Upper left hand corner y-coordinate of the collision box of the character
 	protected int squarein;				//What square the character is in
@@ -26,8 +26,8 @@ public class Character {
 		imgdy = initialdy;
 		coldx = imgdx;
 		coldy = imgdy;
-		cdx = coldx+16;
-		cdy = coldy+16;
+		cdx = coldx+12;
+		cdy = coldy+12;
 		width = w;
 		squarein = ((cdy/36)*width)+(cdx/36);		
 	}
@@ -94,8 +94,8 @@ public class Character {
 		imgdy = initialdy;
 		coldx = imgdx;
 		coldy = imgdy;
-		cdx = coldx+16;
-		cdy = coldy+16;
+		cdx = coldx+12;
+		cdy = coldy+12;
 		squarein = ((cdy/36)*width)+(cdx/36);	
 	}
 	
