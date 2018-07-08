@@ -28,13 +28,12 @@ public class gamePanel extends JPanel {
 		
 		addKeyListener(new keylistener());					//keylistener for changing direction
 		
-		int[] a = m.getHeightWidth();
 		score = new JLabel("Score: " + environ.getScore());
-		score.setBounds(100, a[0]*36+5, 200, 45);
+		score.setBounds(100, 842, 200, 45);
 		score.setFont(new Font("Dialog", Font.PLAIN,24));
 		score.setForeground(Color.WHITE);
 		lives = new JLabel("Lives: " + environ.getLives());
-		lives.setBounds(a[1]*36-200, a[0]*36+5, 100, 45);
+		lives.setBounds(556, 842, 100, 45);
 		lives.setFont(new Font("Dialog", Font.PLAIN,24));
 		lives.setForeground(Color.WHITE);
 		
