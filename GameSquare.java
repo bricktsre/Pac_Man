@@ -2,15 +2,18 @@ import java.awt.Color;
 import java.awt.Graphics;
 
 public class GameSquare {
-	private final int length = 36;		//length of a game square
-	private int cdx;						//Center block top left hand corner x-coordinate
-	private int cdy;						//Center block top left hand corner y-coordinate	
-	private boolean iswall;				//Is this GameSquare a wall or not
-	private boolean haspoint;			//Does this GameSquare contain a point or not
+	private final int length = 27;		//length of a game square
+	private int cdx;					//Center block top left hand corner x-coordinate
+	private int cdy;					//Center block top left hand corner y-coordinate	
+	private boolean iswall;				//Is this GameSquare a wall 
+	private boolean hasdot;				//Does this GameSquare contain a dot 
+	private boolean hasbigdot;			//Does this GameSquare have a big dot
 	
-	public GameSquare(boolean a, boolean b, int y,int x) {
+	
+	public GameSquare(boolean a, boolean b, boolean c, int y,int x) {
 		iswall=a;
-		haspoint=b;
+		hasdot=b;
+		hasbigdot=c;
 		cdx=x*36+16;
 		cdy=y*36+16;
 		
@@ -23,10 +26,14 @@ public class GameSquare {
 		if(iswall) {
 			g.setColor(Color.BLUE);
 			g.drawRect(x*length, y*length, length, length);
-		}else if(haspoint) {
+		}else if(hasdot) {
 			g.setColor(Color.WHITE);
-			g.fillOval(x*length+15, y*length+15, 10, 10);
+			g.fillOval(x*length+8, y*length+8, 11, 11);
 		}
+		else if(hasbigdot){
+			g.setColor(Color.WHITE);
+			g.fillOval(x*length+3, y*length+3, 20, 20);
+		}	
 	}
 	
 	public boolean isWall() {
@@ -34,11 +41,11 @@ public class GameSquare {
 	}
 	
 	public boolean hasPoint() {
-		return haspoint;
+		return hasdot;
 	}
 	
 	public void removePoint() {
-		haspoint=false;
+		hasdot=false;
 	}
 	
 	public int getCdx() {
