@@ -6,17 +6,13 @@ public class gameEnvironment {
 	private pacman pman;						//Pacman character
 	private Ghost [] ghosts = new Ghost[1];		//Array of ghosts
 	private Character[] car;					//Array of pacman and ghost characters
-	private int height;							//Number of GameSquares high the map is
-	private int width;							//Number of GameSquares wide the map is
+	private int height=31;						//Number of GameSquares high the map is
+	private int width=28;						//Number of GameSquares wide the map is
 	
 	public gameEnvironment(MapReader m) {
-		int[] a = m.getHeightWidth();
-		height=a[0];
-		width = a[1];
 		gsquare = new GameSquare[height][width];
 		initializeBoard(m);
-		a = m.getStartCoordinates();
-		pman = new pacman(CardinalDirection.LEFT,a[0],a[1],width);
+		pman = new pacman(CardinalDirection.LEFT,450,828,width);
 		car = new Character[1+ghosts.length];
 		car[0]=pman;
 		for(int i =0;i<ghosts.length;i++) {
@@ -27,22 +23,25 @@ public class gameEnvironment {
 	
 	//Initializes the playing board with a border of walls and wall blocks randomly inside with a bias
 	private void initializeBoard(MapReader m) {								
-		int[][] b = m.getMap(width,height);
-		
+		int[][] b = m.getMap();	
 		for(int i = 0;i<height;i++) {
 			for(int j =0;j<width;j++) {
 				if(b[i][j]==1)
-					gsquare[i][j]=new GameSquare(true,false,i,j);
+					gsquare[i][j]=new GameSquare(true,false,false,i,j);
+				else if(b[i][j]==0)
+					gsquare[i][j]=new GameSquare(false,true,false,i,j);
+				else if(b[i][j]==6)
+					gsquare[i][j]=new GameSquare(false,false,true,i,j);
 				else
-					gsquare[i][j]=new GameSquare(false,true,i,j);
+					gsquare[i][j]=new GameSquare(false,false,false,i,j);
 			}
 		}
 	}
 	
 	//Update the game
 	public void update() {
-		move();
-		pointsDeaths();
+		//move();
+		//pointsDeaths();
 	}
 	
 	/* Focuses entirely on moving the characters 
@@ -148,8 +147,8 @@ public class gameEnvironment {
 			for(int j =0;j<gsquare[0].length;j++)
 				gsquare[i][j].draw(g, i, j);
 		}
-		for(Character a: car)
-			a.draw(g);
+		//for(Character a: car)
+			//a.draw(g);
 			
 	}
 
