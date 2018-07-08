@@ -16,13 +16,11 @@ public class pacman extends Character {
 	
 	//Moves the pacman diagonally
 	public void moveDiag() {
-		imgdx += diagdir.dx*speed;
-		imgdy += diagdir.dy*speed;
-		coldx += diagdir.dx*speed;
-		coldy += diagdir.dy*speed;
-		cdx += diagdir.dx*speed;
-		cdy += diagdir.dy*speed;
-		squarein = ((cdy/36)*width)+(cdx/36);
+		chardx += diagdir.dx*speed;
+		chardy += diagdir.dy*speed;
+		centerdx += diagdir.dx*speed;
+		centerdy += diagdir.dy*speed;
+		squarein = ((centerdy/36)*width)+(centerdx/36);
 	}
 	
 	//Update the direction of the character
@@ -42,9 +40,9 @@ public class pacman extends Character {
 	public int atCenterLineD(GameSquare g) {
 		int a = d.directionToConsiderDiagonal();
 		if(a==0)
-			return Integer.compare(cdy, g.getCdy());
+			return Integer.compare(centerdy, g.getCdy());
 		else 
-			return Integer.compare(cdx, g.getCdx());
+			return Integer.compare(centerdx, g.getCdx());
 	}
 	
 	//Set the initial diagonal direction of pacman when a change of direction is first made
@@ -75,6 +73,6 @@ public class pacman extends Character {
 	//Draws the pacman character
 	public void draw(Graphics g) {
 		g.setColor(c);
-		g.fillOval(imgdx, imgdy, imgwidth, imgwidth);
+		g.fillOval(chardx, chardy, imgwidth, imgwidth);
 	}
 }

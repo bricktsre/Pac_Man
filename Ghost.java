@@ -28,6 +28,6 @@ public class Ghost extends Character{
 
 	public void draw(Graphics g) {
 		g.setColor(c);
-		g.fillOval(imgdx, imgdy, imgwidth, imgwidth);
+		g.fillOval(chardx, chardy, imgwidth, imgwidth);
 	}
 }
