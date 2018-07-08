@@ -65,10 +65,21 @@ public class gamePanel extends JPanel {
 			score.setText("Score: " + environ.getScore());
 			lives.setText("Lives: " + environ.getLives());
 			repaint();
-			if(environ.getLives()==0)
+			if(environ.getLives()==0) {
 				timer.stop();
+				buildDialog();
+			}
 		}
 	}
+	
+	public void buildDialog()
+	  {
+	    JOptionPane optionPane = new JOptionPane(new JLabel("GAME OVER",JLabel.CENTER));
+	    JDialog dialog = optionPane.createDialog("");
+	    dialog.setModal(true);
+	    dialog.setVisible(true);
+	    System.exit(0);
+	  }
 	
 	//Changes the direction of the pacman character in accordance with the arrow keys pressed
 	private class keylistener extends KeyAdapter {
