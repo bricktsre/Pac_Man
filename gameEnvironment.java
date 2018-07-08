@@ -2,26 +2,28 @@ import java.awt.Color;
 import java.awt.Graphics;
 
 public class gameEnvironment {
+	private final int height=31;				//Number of GameSquares high the map is
+	private final int width=28;					//Number of GameSquares wide the map is
 	private GameSquare[][] gsquare;				//2D array of all the squares making up the map
 	private pacman pman;						//Pacman character
 	private Ghost [] ghosts = new Ghost[1];		//Array of ghosts
-	private Character[] car;					//Array of pacman and ghost characters
-	private int height=31;						//Number of GameSquares high the map is
-	private int width=28;						//Number of GameSquares wide the map is
+	private Character[] car;					//Array of pacman and ghost characters	
 	
 	public gameEnvironment(MapReader m) {
 		gsquare = new GameSquare[height][width];
 		initializeBoard(m);
-		pman = new pacman(CardinalDirection.LEFT,450,828,width);
+		pman = new pacman(CardinalDirection.LEFT,365,621,width);
 		car = new Character[1+ghosts.length];
 		car[0]=pman;
 		for(int i =0;i<ghosts.length;i++) {
-			ghosts[i]= new Ghost(CardinalDirection.NONE,36,36,width,Color.GREEN);
+			ghosts[i]= new Ghost(CardinalDirection.NONE,27,27,width,Color.GREEN);
 			car[i+1]=ghosts[i];
 		}	
 	}
 	
-	//Initializes the playing board with a border of walls and wall blocks randomly inside with a bias
+	/* Initializes the gamesquare array from the provided map
+	 * 1 is a wall. 0 is a space with a dot. 6 is a space with a big dot. 3 is an empty space
+	 */
 	private void initializeBoard(MapReader m) {								
 		int[][] b = m.getMap();	
 		for(int i = 0;i<height;i++) {
@@ -124,9 +126,9 @@ public class gameEnvironment {
 				break;
 			}
 		}
-		if(gsquareIn(pman).hasPoint()) {
+		if(gsquareIn(pman).hasDot()) {
 			pman.increaseScore(10);
-			gsquareIn(pman).removePoint();
+			gsquareIn(pman).removeDot();
 		}
 				
 	}
@@ -147,8 +149,8 @@ public class gameEnvironment {
 			for(int j =0;j<gsquare[0].length;j++)
 				gsquare[i][j].draw(g, i, j);
 		}
-		//for(Character a: car)
-			//a.draw(g);
+		for(Character a: car)
+			a.draw(g);
 			
 	}
 

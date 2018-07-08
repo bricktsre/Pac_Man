@@ -3,8 +3,8 @@ import java.awt.Graphics;
 
 public class GameSquare {
 	private final int length = 27;		//length of a game square
-	private int cdx;					//Center block top left hand corner x-coordinate
-	private int cdy;					//Center block top left hand corner y-coordinate	
+	private int centerdx;					//Center block top left hand corner x-coordinate
+	private int centerdy;					//Center block top left hand corner y-coordinate	
 	private boolean iswall;				//Is this GameSquare a wall 
 	private boolean hasdot;				//Does this GameSquare contain a dot 
 	private boolean hasbigdot;			//Does this GameSquare have a big dot
@@ -14,8 +14,8 @@ public class GameSquare {
 		iswall=a;
 		hasdot=b;
 		hasbigdot=c;
-		cdx=x*36+12;
-		cdy=y*36+12;
+		centerdx=x*27+12;
+		centerdy=y*27+12;
 		
 	}
 	
@@ -40,19 +40,27 @@ public class GameSquare {
 		return iswall;
 	}
 	
-	public boolean hasPoint() {
+	public boolean hasDot() {
 		return hasdot;
 	}
 	
-	public void removePoint() {
+	public void removeDot() {
 		hasdot=false;
 	}
 	
+	public boolean hasBigDot() {
+		return hasbigdot;
+	}
+	
+	public void removeBigDot() {
+		hasbigdot=false;
+	}
+	
 	public int getCdx() {
-		return cdx;
+		return centerdx;
 	}
 	
 	public int getCdy() {
-		return cdy;
+		return centerdy;
 	}
 }
