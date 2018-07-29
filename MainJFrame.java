@@ -14,7 +14,7 @@ public class MainJFrame extends JFrame{
         
 		MapReader m = new MapReader(s);
         gp = new gamePanel( this,m);
-        gp.setPreferredSize(new Dimension(756, 887));
+        gp.setPreferredSize(new Dimension(700, 825));
         
         getContentPane().add( gp );
         pack();

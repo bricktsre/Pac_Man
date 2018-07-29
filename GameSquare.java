@@ -2,9 +2,9 @@ import java.awt.Color;
 import java.awt.Graphics;
 
 public class GameSquare {
-	private final int length = 27;		//length of a game square
-	private int centerdx;					//Center block top left hand corner x-coordinate
-	private int centerdy;					//Center block top left hand corner y-coordinate	
+	private final int length = 25;		//length of a game square
+	private int dx;					//Center block top left hand corner x-coordinate
+	private int dy;					//Center block top left hand corner y-coordinate	
 	private boolean iswall;				//Is this GameSquare a wall 
 	private boolean hasdot;				//Does this GameSquare contain a dot 
 	private boolean hasbigdot;			//Does this GameSquare have a big dot
@@ -14,25 +14,25 @@ public class GameSquare {
 		iswall=a;
 		hasdot=b;
 		hasbigdot=c;
-		centerdx=x*27+12;
-		centerdy=y*27+12;
+		dx=x*25;
+		dy=y*25;
 		
 	}
 	
 	/*Draws the GameSquares
-	 *Square is either a wall(blue border), has a point(yellow circle inside), or empty 
+	 *Square is either a wall(blue border), has a point(white circle inside), or empty 
 	 */
-	public void draw(Graphics g, int y, int x) {
+	public void draw(Graphics g) {
 		if(iswall) {
 			g.setColor(Color.BLUE);
-			g.drawRect(x*length, y*length, length, length);
+			g.drawRect(dx, dy, length, length);
 		}else if(hasdot) {
 			g.setColor(Color.WHITE);
-			g.fillOval(x*length+8, y*length+8, 11, 11);
+			g.fillOval(dx+8, dy+8, 11, 11);
 		}
 		else if(hasbigdot){
 			g.setColor(Color.WHITE);
-			g.fillOval(x*length+3, y*length+3, 20, 20);
+			g.fillOval(dx+3, dy+3, 20, 20);
 		}	
 	}
 	
@@ -54,13 +54,5 @@ public class GameSquare {
 	
 	public void removeBigDot() {
 		hasbigdot=false;
-	}
-	
-	public int getCdx() {
-		return centerdx;
-	}
-	
-	public int getCdy() {
-		return centerdy;
 	}
 }

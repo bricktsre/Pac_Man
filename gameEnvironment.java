@@ -1,5 +1,9 @@
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Rectangle;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Scanner;
 
 public class gameEnvironment {
 	private final int height=31;				//Number of GameSquares high the map is
@@ -8,15 +12,18 @@ public class gameEnvironment {
 	private pacman pman;						//Pacman character
 	private Ghost [] ghosts = new Ghost[1];		//Array of ghosts
 	private Character[] car;					//Array of pacman and ghost characters	
+	private Node[] nodes;						//Array of Nodes
 	
 	public gameEnvironment(MapReader m) {
 		gsquare = new GameSquare[height][width];
 		initializeBoard(m);
-		pman = new pacman(CardinalDirection.LEFT,365,621,width);
+		initializeNodes();
+		pman = new pacman(348,588,nodes[37]);
+		pman.changeTarget(nodes[29],Direction.LEFT);
 		car = new Character[1+ghosts.length];
 		car[0]=pman;
 		for(int i =0;i<ghosts.length;i++) {
-			ghosts[i]= new Ghost(CardinalDirection.NONE,27,27,width,Color.GREEN);
+			ghosts[i]= new Ghost(36,36,Color.GREEN,nodes[0]);
 			car[i+1]=ghosts[i];
 		}	
 	}
@@ -40,76 +47,56 @@ public class gameEnvironment {
 		}
 	}
 	
+	private void initializeNodes() {
+		try {
+			Scanner a = new Scanner(new File("graph.txt"));
+			nodes = new Node[a.nextInt()];
+			for(int i =0;i<nodes.length;i++)
+				nodes[i]= new Node(a.nextInt(),a.nextInt());
+			for(int i =0;i<nodes.length;i++) {
+				while(!a.hasNext("-1")) {
+					int node = a.nextInt()-1;
+					int cost = a.nextInt();
+					nodes[i].addNeighbors(nodes[node], cost);
+					nodes[node].addNeighbors(nodes[i], cost); 
+				}a.nextInt();
+			}
+			a.close();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+	}
+	
 	//Update the game
 	public void update() {
-		//move();
-		//pointsDeaths();
+		pman.move();
+		//for(Ghost a: ghosts)
+			//makePath(a);
+		pointsDeaths();
 	}
 	
-	/* Focuses entirely on moving the characters 
-	 * Pacman is moved seperately because it has unique move mechanics
-	 */
-	private void move() {
-		if(!checkWallCollision(pman))
-			pman.changeDirection(CardinalDirection.NONE);
-		if(pman.getDiagdir()==DiagDirection.NONE)
-			pman.move();
-		else
-			diagonalMove(pman);
+	private void makePath(Ghost a) {
 		
-		for(Ghost a: ghosts){
-			if(a.atCenterLineC(gsquareIn(a), a.getDirection())==0 ) {	//Ghosts can only change direction if they are in the center of their square
-				a.changeDirection();
-				while(!checkWallCollision(a))
-					a.changeDirection();
-				a.move();
-			}
-			else 
-				a.move();
-		}				 
+		a.setPath((new PathfindingAlgos().astar(nodes, a.getNodeAt(), pman.getTargetNode())));
+		a.move();
 	}
 	
-	/*Test to see if a character moving would cause it to go into a wall
-	 * If it is going to go into a wall then it returns false
-	 */
-	private boolean checkWallCollision(Character c) {
-		int a = c.getSquareIn();
-		int row = a/width+c.getDirection().dy;
-		int col = a%height+c.getDirection().dx;
-		if(gsquare[row][col].isWall()&&(c.atCenterLineC(gsquareIn(c), c.getDirection())==0))
-			return false;
-		return true;			
-	}
-	
-	/* First this method changes the direction of the pac man character 
-	 * Then it tests whether the pac man character could move in the new direction
-	 * If it cannot then the pac man character goes back to its original direction
-	 */
-	public void changeD(CardinalDirection d) {
-		if(d == pman.getDirection())
-			return;
-		CardinalDirection olddirection = pman.getDirection();
-		pman.changeDirection(d);
-		if(checkWallCollision(pman))
-			if(pman.atCenterLineD(gsquareIn(pman))==0)
-				return;
-			else	
-				pman.setDiag(pman.atCenterLineD(gsquareIn(pman)));
-		else
-			pman.changeDirection(olddirection);
-	}
-	
-	//Moves the character in a diagonal fashion
-	//Checks to see if the diagonal move is complete and if it is changes the diagonal direction something to NONE
-	private void diagonalMove(pacman p) {
-		p.moveDiag();
-		if(p.atCenterLineD(gsquareIn(p))==0)
-			p.changeDiagDir(DiagDirection.NONE);
-	}
-	
-	//Returns the GameSquare the Character a is currently in
-	private GameSquare gsquareIn(Character a) {
-		return gsquare[(a.getSquareIn())/height][(a.getSquareIn())%width];
+	public void changeD(Direction d) {
+		if(d.opposite()==pman.getDirection()) {
+			Node n = pman.getTargetNode();
+			pman.targetNodeNull();
+			pman.changeTarget(pman.getNodeAt(), d);
+			pman.setNodeAt(n);	
+			pman.changeNextTargetNode(null);
+		}else if(pman.getTargetNode()==null) {
+			Node n = pman.getNodeAt().neighborInDirection(d);
+			if(n!=null)
+				pman.changeTarget(n,d);
+		}else {
+			Node n = pman.getTargetNode().neighborInDirection(d);
+			if(n!=null)
+				pman.changeTarget(n,d);
+		}
 	}
 	
 	/*First goes through and sees if the pacman character and any of the ghost characters are in the same GameSquare
@@ -118,17 +105,19 @@ public class gameEnvironment {
 	 */
 	private void pointsDeaths() {
 		for(Ghost a: ghosts) {
-			if(gsquareIn(a)==gsquareIn(pman)){
+			if((new Rectangle(a.getX()-10,a.getY()-10,20,20)).intersects(new Rectangle(pman.getX()-10,pman.getY()-10,20,20))){
 				pman.loseLife();
 				for(Character c: car)
 					c.resetPosition();
-				pman.changeDirection(CardinalDirection.LEFT);
+				pman.targetNodeNull();
+				pman.changeTarget(nodes[29],Direction.LEFT);
+				pman.changeNextTargetNode(null);
 				break;
 			}
 		}
-		if(gsquareIn(pman).hasDot()) {
+		if(gsquare[pman.getY()/25][pman.getX()/25].hasDot()) {
 			pman.increaseScore(10);
-			gsquareIn(pman).removeDot();
+			gsquare[pman.getY()/25][pman.getX()/25].removeDot();
 		}
 				
 	}
@@ -147,7 +136,7 @@ public class gameEnvironment {
 	public void draw(Graphics g) {
 		for(int i =0;i<gsquare.length;i++) {
 			for(int j =0;j<gsquare[0].length;j++)
-				gsquare[i][j].draw(g, i, j);
+				gsquare[i][j].draw(g);
 		}
 		for(Character a: car)
 			a.draw(g);

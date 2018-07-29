@@ -29,11 +29,11 @@ public class gamePanel extends JPanel {
 		addKeyListener(new keylistener());					//keylistener for changing direction
 		
 		score = new JLabel("Score: " + environ.getScore());
-		score.setBounds(100, 842, 200, 45);
+		score.setBounds(100, 780, 200, 45);
 		score.setFont(new Font("Dialog", Font.PLAIN,24));
 		score.setForeground(Color.WHITE);
 		lives = new JLabel("Lives: " + environ.getLives());
-		lives.setBounds(556, 842, 100, 45);
+		lives.setBounds(556, 780, 100, 45);
 		lives.setFont(new Font("Dialog", Font.PLAIN,24));
 		lives.setForeground(Color.WHITE);
 		
@@ -85,13 +85,13 @@ public class gamePanel extends JPanel {
         @Override
         public void keyPressed(KeyEvent e){  
         	if(e.getKeyCode() == KeyEvent.VK_LEFT)
-        	    environ.changeD(CardinalDirection.LEFT);                
+        	    environ.changeD(Direction.LEFT);                
         	else if(e.getKeyCode() == KeyEvent.VK_RIGHT)
-        	    environ.changeD(CardinalDirection.RIGHT);                
+        	    environ.changeD(Direction.RIGHT);                
         	else if(e.getKeyCode() == KeyEvent.VK_UP)
-        	    environ.changeD(CardinalDirection.UP);                
+        	    environ.changeD(Direction.UP);                
         	else if(e.getKeyCode() == KeyEvent.VK_DOWN)
-        	    environ.changeD(CardinalDirection.DOWN);
+        	    environ.changeD(Direction.DOWN);
         }
     }
 }

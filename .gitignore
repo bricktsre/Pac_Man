@@ -12,3 +12,7 @@
 /gamePanel.class
 /pacman.class
 /gamePanel$TimerListener$keylistener.class
+/Direction.class
+/Edge.class
+/Node.class
+/PathfindingAlgos.class
