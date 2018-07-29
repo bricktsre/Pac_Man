@@ -2,50 +2,57 @@ import java.awt.Color;
 import java.awt.Graphics;
 
 public class GameSquare {
-	private final int length = 36;		//length of a game square
-	private int cdx;						//Center block top left hand corner x-coordinate
-	private int cdy;						//Center block top left hand corner y-coordinate	
-	private boolean iswall;				//Is this GameSquare a wall or not
-	private boolean haspoint;			//Does this GameSquare contain a point or not
+	private final int length = 25;		//length of a game square
+	private int dx;					//Center block top left hand corner x-coordinate
+	private int dy;					//Center block top left hand corner y-coordinate	
+	private boolean iswall;				//Is this GameSquare a wall 
+	private boolean hasdot;				//Does this GameSquare contain a dot 
+	private boolean hasbigdot;			//Does this GameSquare have a big dot
 	
-	public GameSquare(boolean a, boolean b, int y,int x) {
+	
+	public GameSquare(boolean a, boolean b, boolean c, int y,int x) {
 		iswall=a;
-		haspoint=b;
-		cdx=x*36+16;
-		cdy=y*36+16;
+		hasdot=b;
+		hasbigdot=c;
+		dx=x*25;
+		dy=y*25;
 		
 	}
 	
 	/*Draws the GameSquares
-	 *Square is either a wall(blue border), has a point(yellow circle inside), or empty 
+	 *Square is either a wall(blue border), has a point(white circle inside), or empty 
 	 */
-	public void draw(Graphics g, int y, int x) {
+	public void draw(Graphics g) {
 		if(iswall) {
 			g.setColor(Color.BLUE);
-			g.drawRect(x*length, y*length, length, length);
-		}else if(haspoint) {
+			g.drawRect(dx, dy, length, length);
+		}else if(hasdot) {
 			g.setColor(Color.WHITE);
-			g.fillOval(x*length+15, y*length+15, 10, 10);
+			g.fillOval(dx+8, dy+8, 11, 11);
 		}
+		else if(hasbigdot){
+			g.setColor(Color.WHITE);
+			g.fillOval(dx+3, dy+3, 20, 20);
+		}	
 	}
 	
 	public boolean isWall() {
 		return iswall;
 	}
 	
-	public boolean hasPoint() {
-		return haspoint;
+	public boolean hasDot() {
+		return hasdot;
 	}
 	
-	public void removePoint() {
-		haspoint=false;
+	public void removeDot() {
+		hasdot=false;
 	}
 	
-	public int getCdx() {
-		return cdx;
+	public boolean hasBigDot() {
+		return hasbigdot;
 	}
 	
-	public int getCdy() {
-		return cdy;
+	public void removeBigDot() {
+		hasbigdot=false;
 	}
 }

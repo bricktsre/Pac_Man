@@ -3,53 +3,72 @@ import java.awt.Graphics;
 
 public class pacman extends Character {
 	private final Color c = Color.YELLOW;
-	protected DiagDirection diagdir;		//Direction of character diagonally if applicable
+	private Node nextTargetNode;
+	private Direction d;
 	private int score;				//Score of the pac man
 	private int lives;				//Lives of the pac man
 	
-	public pacman(CardinalDirection a, int initialdx, int initialdy, int w) {
-		super(a,initialdx,initialdy, w);
-		diagdir = DiagDirection.NONE;
+	public pacman(int initialdx, int initialdy, Node n) {
+		super(initialdx,initialdy,n);
 		score=0;
 		lives=3;
 	}
 	
-	//Moves the pacman diagonally
-	public void moveDiag() {
-		imgdx += diagdir.dx*speed;
-		imgdy += diagdir.dy*speed;
-		coldx += diagdir.dx*speed;
-		coldy += diagdir.dy*speed;
-		cdx += diagdir.dx*speed;
-		cdy += diagdir.dy*speed;
-		squarein = ((cdy/36)*width)+(cdx/36);
+	public void move() {
+		if(targetNode==null)
+			return;
+		else {
+			if(nodeAt.getRow()<targetNode.getRow())
+				y+=speed;
+			else if(nodeAt.getRow()>targetNode.getRow())
+				y-=speed;
+			else if(nodeAt.getCol()<targetNode.getCol())
+				x+=speed;
+			else if(nodeAt.getCol()>targetNode.getCol())
+				x-=speed;
+		}
+		checkTargetNode();
+		
 	}
 	
-	//Update the direction of the character
-	public void changeDiagDir(DiagDirection a) {
-		diagdir=a;
+	private void checkTargetNode() {
+		if(((x-13)/25==targetNode.getCol()) && ((y-13)/25==targetNode.getRow()) &&((x-13)%25==0) && ((y-13)%25==0)) { 
+			nodeAt = targetNode;
+			if(nextTargetNode!=null) {
+				targetNode=nextTargetNode;
+				nextTargetNode=null;
+				d = nodeAt.directionOfNode(targetNode);
+			}else if(nodeAt.neighborInDirection(d)!=null)
+				targetNode=nodeAt.neighborInDirection(d);
+			else {
+				targetNode=null;
+				d=Direction.NONE;
+			}
+		}
 	}
 	
-	//Returns the current diagonal direction of the pac man
-	public DiagDirection getDiagdir() {
-		return diagdir;
+	public void changeTarget(Node n, Direction d) {
+		if(targetNode==null) {
+			targetNode = n;
+			this.d=d;
+		}else
+			nextTargetNode=n;
 	}
 	
-	/*Based off the current direction of the character figure out whether
-	*the characters cdx or cdy needs to be compared and compare it to the target
-	*game square provided as g
-	*/
-	public int atCenterLineD(GameSquare g) {
-		int a = d.directionToConsiderDiagonal();
-		if(a==0)
-			return Integer.compare(cdy, g.getCdy());
-		else 
-			return Integer.compare(cdx, g.getCdx());
+	public void setNodeAt(Node n) {
+		nodeAt=n;
 	}
 	
-	//Set the initial diagonal direction of pacman when a change of direction is first made
-	public void setDiag(int a) {
-		diagdir=diagdir.setDiag(a, d);
+	public Node getTargetNode() {
+		return targetNode;
+	}
+	
+	public void changeNextTargetNode(Node n) {
+		nextTargetNode = n;
+	}
+	
+	public void targetNodeNull() {
+		targetNode=null;
 	}
 	
 	//Increases the score of the pacman by parameter int a
@@ -75,6 +94,10 @@ public class pacman extends Character {
 	//Draws the pacman character
 	public void draw(Graphics g) {
 		g.setColor(c);
-		g.fillOval(imgdx, imgdy, imgwidth, imgwidth);
+		g.fillOval(x-11, y-11, imgwidth, imgwidth);
+	}
+
+	public Direction getDirection() {
+		return d;
 	}
 }

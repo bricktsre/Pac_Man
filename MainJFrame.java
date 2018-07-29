@@ -9,13 +9,12 @@ public class MainJFrame extends JFrame{
 	private gamePanel gp;
 	
 	//Instantiates a gamePanel object that houses the game
-	public MainJFrame(int w, int h) {
+	public MainJFrame(String s) {
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
         
-		MapReader m = new MapReader("map.txt");
-		int[] a = m.getHeightWidth();
+		MapReader m = new MapReader(s);
         gp = new gamePanel( this,m);
-        gp.setPreferredSize(new Dimension(a[1]*36, a[0]*36+50));
+        gp.setPreferredSize(new Dimension(700, 825));
         
         getContentPane().add( gp );
         pack();
@@ -23,10 +22,8 @@ public class MainJFrame extends JFrame{
 	
 	//Creates a MainJFrame object and then displays it
 	public static void main(String[] args) {
-		int width,height;
-		width = 20 ;//Integer.parseInt(args[0]);				//number of squares wide the game should be
-		height = 20; //Integer.parseInt(args[1]);				//number of squares high the game should be
-		MainJFrame f = new MainJFrame(width,height);
+		//MainJFrame f = new MainJFrame(args[0]);
+		MainJFrame f = new MainJFrame("map.txt");
         f.display();
 	}
 	
