@@ -23,7 +23,7 @@ public class gameEnvironment {
 		car = new Character[1+ghosts.length];
 		car[0]=pman;
 		for(int i =0;i<ghosts.length;i++) {
-			ghosts[i]= new Ghost(36,36,Color.GREEN,nodes[0]);
+			ghosts[i]= new Ghost(38,38,Color.GREEN,nodes[0]);
 			car[i+1]=ghosts[i];
 		}	
 	}
@@ -70,14 +70,16 @@ public class gameEnvironment {
 	//Update the game
 	public void update() {
 		pman.move();
-		//for(Ghost a: ghosts)
-			//makePath(a);
+		for(Ghost a: ghosts)
+			makePath(a);
 		pointsDeaths();
 	}
 	
 	private void makePath(Ghost a) {
-		
-		a.setPath((new PathfindingAlgos().astar(nodes, a.getNodeAt(), pman.getTargetNode())));
+		if(pman.getTargetNode()!=null)
+			a.setPath((new PathfindingAlgos().astar(nodes, a.getNodeAt(), pman.getTargetNode())));
+		else
+			a.setPath((new PathfindingAlgos().astar(nodes, a.getNodeAt(), pman.getNodeAt())));
 		a.move();
 	}
 	
