@@ -11,6 +11,7 @@ public class Character {
 	protected Node initialNode;
 	protected Node nodeAt;
 	protected Node targetNode;
+	protected Direction d;
 	
 	public Character(int x, int y, Node n) {
 		initialdx=x;
@@ -22,7 +23,17 @@ public class Character {
 	}
 	
 	//Moves the character with a simply calculation of speed times direction
-	public void move() {}
+	public void move() {
+		if(targetNode==null)
+			return;
+		else {
+			x+=speed*d.dx;
+			y+=speed*d.dy;
+		}
+		checkTargetNode();
+	}
+	
+	protected void checkTargetNode() {}
 	
 	public Node getNodeAt() {
 		return nodeAt;
@@ -41,6 +52,14 @@ public class Character {
 		x = initialdx;
 		y = initialdy;
 		nodeAt=initialNode;
+	}
+	
+	public Direction getDirection() {
+		return d;
+	}
+	
+	public void setDirection(Direction d) {
+		this.d = d;
 	}
 	
 	//Empty method for sub classes to implement
