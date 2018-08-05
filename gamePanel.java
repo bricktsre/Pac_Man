@@ -37,7 +37,7 @@ public class gamePanel extends JPanel {
 		lives.setFont(new Font("Dialog", Font.PLAIN,24));
 		lives.setForeground(Color.WHITE);
 		
-		timer = new javax.swing.Timer(40, new TimerListener(this));
+		timer = new javax.swing.Timer(20, new TimerListener(this));
 		timer.start();
 		setFocusable(true);
 		
