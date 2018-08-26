@@ -31,9 +31,11 @@ public class Ghost extends Character{
 	}
 	
 	public void setPath(LinkedList<Node> p) {
-		path =p;
-		targetNode = path.pop();
-		d = nodeAt.directionOfNode(targetNode);
+		if(!p.isEmpty()){
+			path = p;
+			targetNode = path.pop();
+			d = nodeAt.directionOfNode(targetNode);
+		}
 	}
 	
 	public Node getNodeAt() {
