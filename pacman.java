@@ -4,7 +4,6 @@ import java.awt.Graphics;
 public class pacman extends Character {
 	private final Color c = Color.YELLOW;
 	private Node nextTargetNode;
-	private Direction d;
 	private int score;				//Score of the pac man
 	private int lives;				//Lives of the pac man
 	
@@ -13,31 +12,15 @@ public class pacman extends Character {
 		score=0;
 		lives=3;
 	}
-	
-	public void move() {
-		if(targetNode==null)
-			return;
-		else {
-			if(nodeAt.getRow()<targetNode.getRow())
-				y+=speed;
-			else if(nodeAt.getRow()>targetNode.getRow())
-				y-=speed;
-			else if(nodeAt.getCol()<targetNode.getCol())
-				x+=speed;
-			else if(nodeAt.getCol()>targetNode.getCol())
-				x-=speed;
-		}
-		checkTargetNode();
-		
-	}
-	
+
 	/* The method only does something if the pacman is at the target node so that is checked first
 	 * Then there are three cases
 	 * Case 1: The pacman has another node in line to be the target node
 	 * Case 2: The pacman has another node in the direction it is traveling to be used as another target node
 	 * Case 3: There is no new target node
 	 */
-	private void checkTargetNode() {
+	@Override
+	protected void checkTargetNode() {
 		if(((x-13)/25==targetNode.getCol()) && ((y-13)/25==targetNode.getRow()) &&((x-13)%25==0) && ((y-13)%25==0)) { 
 			nodeAt = targetNode;
 			if(nextTargetNode!=null) {
@@ -109,9 +92,5 @@ public class pacman extends Character {
 	public void draw(Graphics g) {
 		g.setColor(c);
 		g.fillOval(x-11, y-11, imgwidth, imgwidth);
-	}
-
-	public Direction getDirection() {
-		return d;
 	}
 }

@@ -10,7 +10,7 @@ public class gameEnvironment {
 	private final int width=28;					//Number of GameSquares wide the map is
 	private GameSquare[][] gsquare;				//2D array of all the squares making up the map
 	private pacman pman;						//Pacman character
-	private Ghost [] ghosts = new Ghost[1];		//Array of ghosts
+	private Ghost[] ghosts = new Ghost[2];		//Array of ghosts
 	private Character[] characters;					//Array of pacman and ghost characters	
 	private Node[] nodes;						//Array of Nodes
 	
@@ -20,12 +20,12 @@ public class gameEnvironment {
 		initializeNodes();
 		pman = new pacman(348,588,nodes[37]);
 		pman.changeTarget(nodes[29],Direction.LEFT);
-		characters = new Character[1+ghosts.length];
-		characters[0]=pman;
-		for(int i =0;i<ghosts.length;i++) {
-			ghosts[i]= new Ghost(36,36,Color.GREEN,nodes[0]);
-			characters[i+1]=ghosts[i];
-		}	
+	  characters = new Character[1+ghosts.length];
+		characters[0]=pman;	
+    ghosts[0]= new Ghost(38,38,Color.GREEN,nodes[0]);
+		car[1]=ghosts[0];	
+		ghosts[1]= new Ghost(663,38,Color.PINK, nodes[57]);
+		car[2]=ghosts[1];	
 	}
 	
 	/* Initializes the gamesquare array from the provided map
@@ -73,15 +73,18 @@ public class gameEnvironment {
 	//Update the game
 	public void update() {
 		pman.move();
-		//for(Ghost a: ghosts)
-			//makePath(a);
+		for(Ghost a: ghosts)
+			makePath(a);
 		pointsDeaths();
 	}
 	
 	private void makePath(Ghost a) {
-		
-		a.setPath((new PathfindingAlgos().astar(nodes, a.getNodeAt(), pman.getTargetNode())));
-		a.move();
+		if((a.getX()-13)%25==0&&(a.getY()-13)%25==0&&(a.getX()-13)/25==a.getNodeAt().getCol()&&(a.getY()-13)/25==a.getNodeAt().getRow()) {
+			if(pman.getTargetNode()!=null)
+				a.setPath((new PathfindingAlgos().astar(nodes, a.getNodeAt(), pman.getTargetNode())));
+			else
+				a.setPath((new PathfindingAlgos().astar(nodes, a.getNodeAt(), pman.getNodeAt())));
+		}a.move();
 	}
 	
 	/* Changes the direction of the Pacman character
