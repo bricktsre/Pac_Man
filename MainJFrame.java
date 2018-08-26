@@ -8,7 +8,7 @@ import javax.swing.*;
 public class MainJFrame extends JFrame{
 	private gamePanel gp;
 	
-	//Instantiates a gamePanel object that houses the game
+	//Instantiates a gamePanel object that houses the game and passes a mapreader object as a parameter
 	public MainJFrame(String s) {
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
         

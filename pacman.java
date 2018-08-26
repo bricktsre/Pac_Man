@@ -31,6 +31,12 @@ public class pacman extends Character {
 		
 	}
 	
+	/* The method only does something if the pacman is at the target node so that is checked first
+	 * Then there are three cases
+	 * Case 1: The pacman has another node in line to be the target node
+	 * Case 2: The pacman has another node in the direction it is traveling to be used as another target node
+	 * Case 3: There is no new target node
+	 */
 	private void checkTargetNode() {
 		if(((x-13)/25==targetNode.getCol()) && ((y-13)/25==targetNode.getRow()) &&((x-13)%25==0) && ((y-13)%25==0)) { 
 			nodeAt = targetNode;
@@ -47,6 +53,11 @@ public class pacman extends Character {
 		}
 	}
 	
+	
+	/* Changes the Target node of the pacman character
+	 * Parameters are a node to be the new target node and a direction to be the new direction
+	 * If targetnode has a value then nextTargetNode is used to store the value
+	 */
 	public void changeTarget(Node n, Direction d) {
 		if(targetNode==null) {
 			targetNode = n;
@@ -55,14 +66,17 @@ public class pacman extends Character {
 			nextTargetNode=n;
 	}
 	
+	//Sets the node at which the pacman is at
 	public void setNodeAt(Node n) {
 		nodeAt=n;
 	}
 	
+	//Returns the target node of the pacman
 	public Node getTargetNode() {
 		return targetNode;
 	}
 	
+	//Changes the nextTargetNode variable
 	public void changeNextTargetNode(Node n) {
 		nextTargetNode = n;
 	}

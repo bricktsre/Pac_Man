@@ -37,19 +37,23 @@ public class Ghost extends Character{
 		}
 	}
 	
+	//Sets a new targetNode for the ghost
 	public void setTarget(Node n) {
 		targetNode = n;
 	}
 	
+	//Sets the path of the ghost
 	public void setPath(LinkedList<Node> p) {
 		path =p;
 		targetNode = path.pop();
 	}
 	
+	//Returns the node the ghost is at
 	public Node getNodeAt() {
 		return nodeAt;
 	}
 
+	//Draws the ghost as a circle with a color specific to the object
 	public void draw(Graphics g) {
 		g.setColor(c);
 		g.fillOval(x-11, y-11, imgwidth, imgwidth);

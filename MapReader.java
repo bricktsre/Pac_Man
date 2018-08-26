@@ -1,3 +1,4 @@
+//Class reads in the map from a provided text file
 import java.io.File;
 import java.io.IOException;
 import java.util.Scanner;
@@ -10,7 +11,7 @@ public class MapReader {
 	}
 	
 	/*
-	 * Returns a 2D array of the map where 1 is a wall and 0 is a point space
+	 * Returns a 2D array of the map with each location having a specific number corresponding to a wall, dot, big dot, or an empty space
 	 */
 	public int[][] getMap(){
 		int [][] wh = new int[33][28];
