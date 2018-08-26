@@ -10,8 +10,8 @@ public class gameEnvironment {
 	private final int width=28;					//Number of GameSquares wide the map is
 	private GameSquare[][] gsquare;				//2D array of all the squares making up the map
 	private pacman pman;						//Pacman character
-	private Ghost [] ghosts = new Ghost[2];		//Array of ghosts
-	private Character[] car;					//Array of pacman and ghost characters	
+	private Ghost[] ghosts = new Ghost[2];		//Array of ghosts
+	private Character[] characters;					//Array of pacman and ghost characters	
 	private Node[] nodes;						//Array of Nodes
 	
 	public gameEnvironment(MapReader m) {
@@ -20,12 +20,12 @@ public class gameEnvironment {
 		initializeNodes();
 		pman = new pacman(348,588,nodes[37]);
 		pman.changeTarget(nodes[29],Direction.LEFT);
-		car = new Character[1+ghosts.length];
-		car[0]=pman;
-		ghosts[0]= new Ghost(38,38,Color.GREEN,nodes[0]);
+	  characters = new Character[1+ghosts.length];
+		characters[0]=pman;	
+    ghosts[0]= new Ghost(38,38,Color.GREEN,nodes[0]);
 		car[1]=ghosts[0];	
 		ghosts[1]= new Ghost(663,38,Color.PINK, nodes[57]);
-		car[2]=ghosts[1];
+		car[2]=ghosts[1];	
 	}
 	
 	/* Initializes the gamesquare array from the provided map
@@ -47,6 +47,9 @@ public class gameEnvironment {
 		}
 	}
 	
+	/* Establishes an map containing the nodes and edges connecting them within the pacman map.
+	 * These are stored in an array in a specific order starting with the top left corner and reading down.
+	 */
 	private void initializeNodes() {
 		try {
 			Scanner a = new Scanner(new File("graph.txt"));
@@ -84,6 +87,11 @@ public class gameEnvironment {
 		}a.move();
 	}
 	
+	/* Changes the direction of the Pacman character
+	 * Case 1: New direction is opposite of current direction
+	 * Case 2: Pacman currently isn't moving
+	 * Case 3: A standard change of direction
+	 */
 	public void changeD(Direction d) {
 		if(d.opposite()==pman.getDirection()) {
 			Node n = pman.getTargetNode();
@@ -110,7 +118,7 @@ public class gameEnvironment {
 		for(Ghost a: ghosts) {
 			if((new Rectangle(a.getX()-10,a.getY()-10,20,20)).intersects(new Rectangle(pman.getX()-10,pman.getY()-10,20,20))){
 				pman.loseLife();
-				for(Character c: car)
+				for(Character c: characters)
 					c.resetPosition();
 				pman.targetNodeNull();
 				pman.changeTarget(nodes[29],Direction.LEFT);
@@ -141,7 +149,7 @@ public class gameEnvironment {
 			for(int j =0;j<gsquare[0].length;j++)
 				gsquare[i][j].draw(g);
 		}
-		for(Character a: car)
+		for(Character a: characters)
 			a.draw(g);
 			
 	}

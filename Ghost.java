@@ -26,10 +26,12 @@ public class Ghost extends Character{
 		}
 	}
 	
+	//Sets a new targetNode for the ghost
 	public void setTarget(Node n) {
 		targetNode = n;
 	}
 	
+	//Sets the path of the ghost
 	public void setPath(LinkedList<Node> p) {
 		if(!p.isEmpty()){
 			path = p;
@@ -38,14 +40,16 @@ public class Ghost extends Character{
 		}
 	}
 	
+	//Returns the node the ghost is at
 	public Node getNodeAt() {
 		return nodeAt;
 	}
 
+
 	public Node getTargetNode() {
 		return targetNode;
 	}
-	
+
 	public void draw(Graphics g) {
 		g.setColor(c);
 		g.fillOval(x-11, y-11, imgwidth, imgwidth);
