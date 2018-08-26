@@ -9,6 +9,7 @@ public enum Direction {
 		this.dy = dy;
 	}
 	
+	//Reutns the direction opposite of the direction calling the method
 	public Direction opposite() {
 		switch(this) {
 			case UP: return Direction.DOWN;
