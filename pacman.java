@@ -64,6 +64,7 @@ public class pacman extends Character {
 		nextTargetNode = n;
 	}
 	
+	//Set the targetnode to null
 	public void targetNodeNull() {
 		targetNode=null;
 	}

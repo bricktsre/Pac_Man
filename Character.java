@@ -4,14 +4,14 @@ import java.awt.Graphics;
 public class Character {
 	protected final int speed=1;		//Set speed of the character
 	protected final int imgwidth = 22;	//Width of the image
-	protected int x;				//x-coordinate of the character
-	protected int y;				//y-coordinate of the character
+	protected int x;					//x-coordinate of the character
+	protected int y;					//y-coordinate of the character
 	protected int initialdx;			//Initial x-coordinate of the character
 	protected int initialdy;			//Initial y-coordinate of the character
-	protected Node initialNode;
-	protected Node nodeAt;
-	protected Node targetNode;
-	protected Direction d;
+	protected Node initialNode;			//Starting node of the character
+	protected Node nodeAt;				//Node the character is at or came from
+	protected Node targetNode;			//Node the character is going to
+	protected Direction d;				//Direction enum of the character
 	
 	public Character(int x, int y, Node n) {
 		initialdx=x;
@@ -22,7 +22,7 @@ public class Character {
 		initialNode=n;
 	}
 	
-	//Moves the character with a simply calculation of speed times direction
+	//Moves the character with a simple calculation of speed times direction
 	public void move() {
 		if(targetNode==null)
 			return;
@@ -33,16 +33,20 @@ public class Character {
 		checkTargetNode();
 	}
 	
+	//Superclass method for subclass inplementation
 	protected void checkTargetNode() {}
 	
+	//Return nodeat variable
 	public Node getNodeAt() {
 		return nodeAt;
 	}
 	
+	//Return x-coordinate of character
 	public int getX() {
 		return x;
 	}
 	
+	//Return the y-coordinate of the character
 	public int getY() {
 		return y;
 	}
@@ -54,10 +58,12 @@ public class Character {
 		nodeAt=initialNode;
 	}
 	
+	//Return te direction of the character
 	public Direction getDirection() {
 		return d;
 	}
 	
+	//Set the direction of the  character
 	public void setDirection(Direction d) {
 		this.d = d;
 	}

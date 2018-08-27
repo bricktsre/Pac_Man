@@ -20,12 +20,12 @@ public class gameEnvironment {
 		initializeNodes();
 		pman = new pacman(348,588,nodes[37]);
 		pman.changeTarget(nodes[29],Direction.LEFT);
-	  characters = new Character[1+ghosts.length];
+		characters = new Character[1+ghosts.length];
 		characters[0]=pman;	
-    ghosts[0]= new Ghost(38,38,Color.GREEN,nodes[0]);
-		car[1]=ghosts[0];	
+		ghosts[0]= new Ghost(38,38,Color.GREEN,nodes[0]);
+		characters[1]=ghosts[0];	
 		ghosts[1]= new Ghost(663,38,Color.PINK, nodes[57]);
-		car[2]=ghosts[1];	
+		characters[2]=ghosts[1];	
 	}
 	
 	/* Initializes the gamesquare array from the provided map
@@ -70,7 +70,10 @@ public class gameEnvironment {
 		}
 	}
 	
-	//Update the game
+	/* Updating the state of the game
+	 * Step 1: move the pacman and ghosts
+	 * Step 2: Update the score and check for pacman-ghost collisions
+	 */
 	public void update() {
 		pman.move();
 		for(Ghost a: ghosts)
@@ -78,6 +81,10 @@ public class gameEnvironment {
 		pointsDeaths();
 	}
 	
+	/* Generates a path of nodes for the ghost to take
+	 * Firstly the ghost can only "change direction" if they are at a node
+	 * A* pathfinding is used to generate the path
+	 */
 	private void makePath(Ghost a) {
 		if((a.getX()-13)%25==0&&(a.getY()-13)%25==0&&(a.getX()-13)/25==a.getNodeAt().getCol()&&(a.getY()-13)/25==a.getNodeAt().getRow()) {
 			if(pman.getTargetNode()!=null)
@@ -110,7 +117,7 @@ public class gameEnvironment {
 		}
 	}
 	
-	/*First goes through and sees if the pacman character and any of the ghost characters are in the same GameSquare
+	/*First goes through and sees if the pacman character and any of the ghost characters are intersecting
 	 * if they are, the pacman loses a life and all characters reset their positions
 	 * Secondly if the pacman is in a GameSquare containg a point than he eats it and increases his score
 	 */
