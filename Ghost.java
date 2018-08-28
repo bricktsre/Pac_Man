@@ -4,12 +4,17 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 
 public class Ghost extends Character{
-	private Color c;	//Color of the ghost
+	private Color c;					//Color of the ghost
 	private LinkedList<Node> path;		//Path of nodes leading towards the pacman character
+	private boolean edible;				//Can the ghost be eaten or not
+	private boolean eaten;				//Has the ghost been eaten
+	private int edibleVisualCounter;	//Counter used for displaying the ghost when it is edible
 	
 	public Ghost(int initialdx, int initialdy, Color ghostcolor,Node n) {
 		super(initialdx,initialdy, n);
 		c=ghostcolor;
+		edible=false;
+		edibleVisualCounter=1;
 	}
 	
 	/* Checks whether the target node is still valid
@@ -56,7 +61,38 @@ public class Ghost extends Character{
 
 	//Draw the ghost as circle with the color specified by the object
 	public void draw(Graphics g) {
-		g.setColor(c);
+		if(eaten) 
+			g.setColor(Color.GRAY);
+		else if(edible) {
+			if(edibleVisualCounter<=5)
+				g.setColor(Color.WHITE);
+			else
+				g.setColor(c);
+			edibleVisualCounter++;
+			if(edibleVisualCounter==12)
+				edibleVisualCounter=0;
+		}else 
+			g.setColor(c);
 		g.fillOval(x-11, y-11, imgwidth, imgwidth);
+	}
+
+	//Returns the edible variable
+	public boolean getEdible() {
+		return edible;
+	}
+
+	//Sets the eaten varaible to the argument
+	public void setEaten(boolean b) {
+		eaten = b;
+	}
+
+	//Sets the edible variable to the argument
+	public void setEdible(boolean b) {
+		edible =b;
+	}
+
+	//Returns the value of the eaten variable
+	public boolean getEaten() {
+		return eaten;
 	}
 }
