@@ -11,8 +11,9 @@ public class gameEnvironment {
 	private GameSquare[][] gsquare;				//2D array of all the squares making up the map
 	private pacman pman;						//Pacman character
 	private Ghost[] ghosts = new Ghost[2];		//Array of ghosts
-	private Character[] characters;					//Array of pacman and ghost characters	
+	private Character[] characters;				//Array of pacman and ghost characters	
 	private Node[] nodes;						//Array of Nodes
+	private int timer = 0;							//Int to be used as a makeshift timer
 	
 	public gameEnvironment(MapReader m) {
 		gsquare = new GameSquare[height][width];
@@ -79,6 +80,13 @@ public class gameEnvironment {
 		for(Ghost a: ghosts)
 			makePath(a);
 		pointsDeaths();
+		
+		if(timer==600) {
+			for(Ghost g: ghosts)
+				g.setEdible(false);
+			timer=0;
+		}else if(timer>0)
+			timer++;
 	}
 	
 	/* Generates a path of nodes for the ghost to take
@@ -124,7 +132,7 @@ public class gameEnvironment {
 	private void pointsDeaths() {
 		for(Ghost a: ghosts) {
 			if((new Rectangle(a.getX()-10,a.getY()-10,20,20)).intersects(new Rectangle(pman.getX()-10,pman.getY()-10,20,20))){
-				if(!a.getEdible()) {
+				if(!a.getEdible() && !a.getEaten()) {
 					pman.loseLife();
 					for(Character c: characters)
 						c.resetPosition();
@@ -133,9 +141,11 @@ public class gameEnvironment {
 					pman.changeNextTargetNode(null);
 					break;
 				}
-				else if(!a.getEaten()){				
-					pman.increaseScore(100);
-					a.setEaten(true);
+				else{
+					if(!a.getEaten()){				
+						pman.increaseScore(100);
+						a.setEaten(true);
+					}
 				}
 			}
 		}
@@ -147,6 +157,7 @@ public class gameEnvironment {
 			gsquare[pman.getY()/25][pman.getX()/25].removeBigDot();
 			for(Ghost a: ghosts)
 				a.setEdible(true);
+			timer++;
 		}
 				
 	}
