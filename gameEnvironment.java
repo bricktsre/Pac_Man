@@ -124,18 +124,29 @@ public class gameEnvironment {
 	private void pointsDeaths() {
 		for(Ghost a: ghosts) {
 			if((new Rectangle(a.getX()-10,a.getY()-10,20,20)).intersects(new Rectangle(pman.getX()-10,pman.getY()-10,20,20))){
-				pman.loseLife();
-				for(Character c: characters)
-					c.resetPosition();
-				pman.targetNodeNull();
-				pman.changeTarget(nodes[29],Direction.LEFT);
-				pman.changeNextTargetNode(null);
-				break;
+				if(!a.getEdible()) {
+					pman.loseLife();
+					for(Character c: characters)
+						c.resetPosition();
+					pman.targetNodeNull();
+					pman.changeTarget(nodes[29],Direction.LEFT);
+					pman.changeNextTargetNode(null);
+					break;
+				}
+				else if(!a.getEaten()){				
+					pman.increaseScore(100);
+					a.setEaten(true);
+				}
 			}
 		}
 		if(gsquare[pman.getY()/25][pman.getX()/25].hasDot()) {
 			pman.increaseScore(10);
 			gsquare[pman.getY()/25][pman.getX()/25].removeDot();
+		}
+		if(gsquare[pman.getY()/25][pman.getX()/25].hasBigDot()) {
+			gsquare[pman.getY()/25][pman.getX()/25].removeBigDot();
+			for(Ghost a: ghosts)
+				a.setEdible(true);
 		}
 				
 	}
