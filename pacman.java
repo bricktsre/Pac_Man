@@ -21,7 +21,7 @@ public class pacman extends Character {
 	 */
 	@Override
 	protected void checkTargetNode() {
-		if(((x-13)/25==targetNode.getCol()) && ((y-13)/25==targetNode.getRow()) &&((x-13)%25==0) && ((y-13)%25==0)) { 
+		if(this.atNode(targetNode)) { 
 			nodeAt = targetNode;
 			if(nextTargetNode!=null) {
 				targetNode=nextTargetNode;
