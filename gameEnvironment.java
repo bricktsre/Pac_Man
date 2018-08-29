@@ -99,7 +99,7 @@ public class gameEnvironment {
 	private void makePath(Ghost a) {
 		if(a.atNode(a.getNodeAt())) {
 			if(a.getEaten()) {
-				if(a.atNode(a.getInitialNode()))
+				if(a.atNode(a.getInitialNode())&&timer==0)
 					a.setEaten(false);
 				else
 					a.setPath((new PathfindingAlgos().astar(nodes,  a.getNodeAt(), a.getInitialNode())));
