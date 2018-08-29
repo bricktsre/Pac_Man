@@ -90,15 +90,27 @@ public class gameEnvironment {
 	}
 	
 	/* Generates a path of nodes for the ghost to take
-	 * Firstly the ghost can only "change direction" if they are at a node
 	 * A* pathfinding is used to generate the path
+	 * Firstly the ghost can only "change direction" if they are at a node
+	 * Case 1: Ghost has been eaten, travel to initial node then return to normal pathfinding
+	 * Case 2: Ghost is edible and runs away from the pacman
+	 * Case 3: Ghost moves normally towards the pacman
 	 */
 	private void makePath(Ghost a) {
-		if((a.getX()-13)%25==0&&(a.getY()-13)%25==0&&(a.getX()-13)/25==a.getNodeAt().getCol()&&(a.getY()-13)/25==a.getNodeAt().getRow()) {
-			if(pman.getTargetNode()!=null)
-				a.setPath((new PathfindingAlgos().astar(nodes, a.getNodeAt(), pman.getTargetNode())));
-			else
-				a.setPath((new PathfindingAlgos().astar(nodes, a.getNodeAt(), pman.getNodeAt())));
+		if(a.atNode(a.getNodeAt())) {
+			if(a.getEaten()) {
+				if(a.atNode(a.getInitialNode()))
+					a.setEaten(false);
+				else
+					a.setPath((new PathfindingAlgos().astar(nodes,  a.getNodeAt(), a.getInitialNode())));
+			}else if(a.getEdible()) {
+				a.setPath((new PathfindingAlgos().astar(nodes,  a.getNodeAt(), a.getInitialNode())));
+			}else {
+				if(pman.getTargetNode()!=null)
+					a.setPath((new PathfindingAlgos().astar(nodes, a.getNodeAt(), pman.getTargetNode())));
+				else
+					a.setPath((new PathfindingAlgos().astar(nodes, a.getNodeAt(), pman.getNodeAt())));
+			}
 		}a.move();
 	}
 	
