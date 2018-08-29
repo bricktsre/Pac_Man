@@ -68,6 +68,21 @@ public class Character {
 		this.d = d;
 	}
 	
+	//Return the initialNode variable
+		public Node getInitialNode() {
+			return initialNode;
+		}
+		
+	/* Checks if the character is at the argument node
+	 * If it is return true, if it is not return false
+	 */
+	public boolean atNode(Node n) {
+		if((this.getX()-13)%25==0&&(this.getY()-13)%25==0&&(this.getX()-13)/25==n.getCol()&&(this.getY()-13)/25==n.getRow()) 
+			return true;
+		return false;
+
+	}
+	
 	//Empty method for sub classes to implement
 	public void draw(Graphics g) {}
 
